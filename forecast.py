@@ -147,7 +147,7 @@ class Forecast(object):
             'format': 'json',
             'num_of_days': 1,
             'mca': 'no',
-            'lang': 'en',
+            'lang': 'ru',
             'cc': 'yes',
             'tp': '1',
             'fx': 'yes',
@@ -185,10 +185,8 @@ class Forecast(object):
         max_temp = int(self.forecast['weather'][0]['maxtemp' + self.unit])
         min_temp = int(self.forecast['weather'][0]['mintemp' + self.unit])
         temp = (max_temp + min_temp) / 2
-        temperature = str(temp).encode('utf-8') + \
-            u'°'.encode('utf-8') + self.unit.encode('utf-8')
-        condition = self.forecast['weather'][0]['hourly'][
-            12]['weatherDesc'][0]['value'].lower()
+        temperature = str(temp).encode('utf-8') + \u'°'.encode('utf-8') + self.unit.encode('utf-8')
+        condition = self.forecast['weather'][0]['hourly'][12]['weatherDesc'][0]['value'].lower()
 
         # Get the start date
         try:
@@ -388,28 +386,22 @@ class Forecast(object):
         condition_chance = None
 
         if outfit in COLD_WEATHER:
-            answer = LIST_YES if min_temp < _TEMP_LIMITS[
-                'chilly'][self.unit] else LIST_NO
+            answer = LIST_YES if min_temp < _TEMP_LIMITS['chilly'][self.unit] else LIST_NO
         elif outfit in WARM_WEATHER:
-            answer = LIST_YES if max_temp < _TEMP_LIMITS[
-                'warm'][self.unit] else LIST_NO
+            answer = LIST_YES if max_temp < _TEMP_LIMITS['warm'][self.unit] else LIST_NO
         elif outfit in HOT_WEATHER:
-            answer = LIST_YES if max_temp < _TEMP_LIMITS[
-                'hot'][self.unit] else LIST_NO
+            answer = LIST_YES if max_temp < _TEMP_LIMITS['hot'][self.unit] else LIST_NO
         elif outfit in RAIN:
             condition = 'rain'
-            condition_chance = self.forecast['weather'][
-                0]['hourly'][12]['chanceofrain']
+            condition_chance = self.forecast['weather'][0]['hourly'][12]['chanceofrain']
             answer = LIST_YES if condition_chance < 50 else LIST_NO
         elif outfit in SNOW:
             condition = 'snow'
-            condition_chance = self.forecast['weather'][
-                0]['hourly'][12]['chanceofsnow']
+            condition_chance = self.forecast['weather'][0]['hourly'][12]['chanceofsnow']
             answer = LIST_YES if condition_chance < 50 else LIST_NO
         elif outfit in SUN:
             condition = 'sunshine'
-            condition_chance = self.forecast['weather'][
-                0]['hourly'][12]['chanceofsunshine']
+            condition_chance = self.forecast['weather'][0]['hourly'][12]['chanceofsunshine']
             answer = LIST_YES if condition_chance > 50 else LIST_NO
         else:
             return 'I don\'t know about %s' % outfit
@@ -449,8 +441,7 @@ class Forecast(object):
             'utf-8') + u'°'.encode('utf-8') + self.unit.encode('utf-8')
 
         # Get the conditions in the middle of the day
-        condition = self.forecast['weather'][0][
-            'hourly'][12]['weatherDesc'][0]['value']
+        condition = self.forecast['weather'][0]['hourly'][12]['weatherDesc'][0]['value']
 
         output_string = random.choice(WEATHER_CURRENT)
 
