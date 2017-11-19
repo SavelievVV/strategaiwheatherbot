@@ -53,6 +53,7 @@ from weather_entities import (WINTER_ACTIVITY, SUMMER_ACTIVITY, DEMI_ACTIVITY,
                               CONDITION_DICT, UNSUPPORTED, COLD_WEATHER,
                               WARM_WEATHER, HOT_WEATHER, RAIN, SNOW, SUN)
 
+
 class Forecast(object):
     """The Forecast object implements tracking of and forecast retrieval for
     a request for a weather forecast.  Several methods return various human
@@ -83,7 +84,8 @@ class Forecast(object):
             'condition': params['condition'],
             'outfit': params['outfit'],
         }
-       self.forecast = self.__get_forecast()
+
+        self.forecast = self.__get_forecast()
 
     def __get_forecast(self):
         """Takes a date or date period and a city
@@ -132,7 +134,7 @@ class Forecast(object):
                 forecast = response
 
         return forecast
-        
+
     def __call_wwo_api(self, date):
         """Calls the wwo weather API for a date
         raises an exception for network errors
@@ -174,7 +176,7 @@ class Forecast(object):
                 temps.append(int(hour['temp' + self.unit]))
 
         return (max(temps), min(temps))
-   
+
     def get_datetime_response(self):
         """Takes a datetime and forecast
         Returns the forecast for that datetime as a string
@@ -229,8 +231,7 @@ class Forecast(object):
                     temperature=temperature,
                     date=self.datetime_start.strftime('%B %-d'))
         return response
-   
-   
+
     def get_datetime_period_response(self):
         """Takes a date period and forecast
         Returns the forecast for the date period as a string
@@ -271,7 +272,7 @@ class Forecast(object):
                 time_period = 'tonight'
             elif datetime_start.hour <= 8 and datetime_end.hour <= 12:
                 time_period = 'morning'
-                    
+
             # if the time period can be described with a word use it here
             if time_period:
                 output_string = random.choice(
@@ -327,7 +328,7 @@ class Forecast(object):
                     degree_list_max=max_temp)
 
         return response
-        
+
     def get_activity_response(self):
         """Takes an activity and a forecast
         returns the appropriateness of activity with the weather as a string
@@ -375,7 +376,6 @@ class Forecast(object):
             resp = 'I don\'t know about %s' % condition
 
         return resp
-        
 
     def get_outfit_response(self):
         """Takes an outfit and a forecast
@@ -438,8 +438,7 @@ class Forecast(object):
             resp = LIST_COLD
 
         return random.choice(resp)
-        
-        
+
     def get_current_response(self):
         """Takes a forecast and returns the current conditions as a string
         """
@@ -495,7 +494,7 @@ def validate_params(parameters):
     params['unit'] = parameters.get('unit')
     if not params['unit'] and _DEFAULT_TEMP_UNIT:
         params['unit'] = _DEFAULT_TEMP_UNIT
-        
+
     # activity
     if parameters.get('activity'):
         activity = parameters.get('activity')
@@ -520,9 +519,9 @@ def validate_params(parameters):
     # condition
     params['condition'] = parameters.get('condition')
 
-    return error_response.strip(), params  
-   
- 
+    return error_response.strip(), params
+
+
 def parse_datetime_input(datetime_input):
     """Takes a string containing date/time and intervals in ISO-8601 format
     Returns a start and end Python datetime.datetime object
