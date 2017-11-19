@@ -21,17 +21,25 @@ This sample uses the WWO Weather Forecast API and requires an WWO API key
 Get a WWO API key here: https://developer.worldweatheronline.com/api/
 """
 
+import urllib
 import json
+import os
+import sys
 
-from flask import Flask, request, make_response, jsonify
+from flask import Flask
+from flask import request
+from flask import make_response
+
+from flask import jsonify
 
 from forecast import Forecast, validate_params
 
-APP = Flask(__name__)
-LOG = APP.logger
+# Flask app should start in global layout
+app = Flask(__name__)
+LOG = app.logger
 
 
-@APP.route('/', methods=['POST'])
+@app.route('/', methods=['POST'])
 def webhook():
     """This method handles the http requests for the API.AI webhook
     This is meant to be used in conjunction with the weather API.AI agent
@@ -215,4 +223,6 @@ def weather_temperature(req):
 
 
 if __name__ == '__main__':
-    APP.run(debug=True, host='0.0.0.0')
+    port = int(os.getenv('PORT', 5000))
+    print("Starting app on port %d" % port)
+    app.run(debug=False, port=port, host='0.0.0.0')
