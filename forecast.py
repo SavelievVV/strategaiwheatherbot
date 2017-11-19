@@ -133,7 +133,7 @@ class Forecast(object):
 
         return forecast
         
-            def __call_wwo_api(self, date):
+    def __call_wwo_api(self, date):
         """Calls the wwo weather API for a date
         raises an exception for network errors
         Returns a dict of the JSON 'data' attribute in the response
@@ -591,5 +591,3 @@ def parse_datetime_input(datetime_input):
         datetime_end = None
 
     return datetime_start, datetime_end
-
-        
